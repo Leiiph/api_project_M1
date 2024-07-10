@@ -1,11 +1,11 @@
 // app.js
 const express = require('express');
 const connection = require('./connect');
-
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
-app.use(express.json()); // Parse JSON bodies
+app.use(bodyParser.json());
 
 // Get all books
 app.get('/books', (req, res) => {
