@@ -3,6 +3,8 @@ const express = require('express');
 const connection = require('./connect');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
+app.use(cors());
 const port = 3000;
 
 app.use(bodyParser.json());
@@ -17,6 +19,21 @@ app.get('/books', (req, res) => {
             res.status(200).json(results);
         }
     });
+});
+
+
+// Get all books' names - used to displa them
+app.get('/books/names', (req, res) => {
+    const query = 'SELECT name FROM bookstate';
+    connection.query(query, (err, results) => {
+        if (err) {
+            res.status(500).send
+        }
+        else {
+            res.status(200).json(results);
+        }
+    }
+    );
 });
 
 // Update book state
@@ -35,7 +52,7 @@ app.put('/books/:id/state', (req, res) => {
 
 
 // Add a book
-app.post('/books', (req, res) => {
+app.post('/books/add', (req, res) => {
     const { name, author, state } = req.body;
     const query = 'INSERT INTO bookstate (name, author, state) VALUES (?, ?, ?)';
     connection.query(query, [name, author, state], (err, results) => {
@@ -47,14 +64,14 @@ app.post('/books', (req, res) => {
     });
 });
 
-// Fetch the id_book, to be used to delete a book
+// Fetch the name of the book, to be used to delete a book
 
-app.post('/book', (req, res) => {
-    const { id_book } = req.body;
-    const query = 'DELETE FROM bookstate WHERE id_book= (?)';
-    connection.query(query, [id_book], (err, results) => {
+app.post('/books/name/deletion', (req, res) => {
+    const { name } = req.body;
+    const query = 'DELETE FROM bookstate WHERE name= (?)';
+    connection.query(query, [name], (err, results) => {
         if (err) {
-            res.status(500).send(err + 'id not found');
+            res.status(500).send(err + 'name not found');
         } else {
             res.status(200).send(`Book added with ID: ${results.insertId}`);
         }

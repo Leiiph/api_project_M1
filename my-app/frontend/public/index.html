@@ -1,43 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #book-form, #delete-form {
+            margin-bottom: 20px;
+        }
+        .book {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .book h3 {
+            margin: 0 0 10px;
+        }
+        .book p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book List</h1>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <!-- Form to add a new book -->
+    <div id="book-form">
+        <h2>Add a Book</h2>
+        <form id="add-book-form">
+            <input type="text" id="name" placeholder="Name" required><br>
+            <input type="text" id="author" placeholder="Author" required><br>
+            <select id="state" required>
+                <option value="PtR">PtR</option>
+                <option value="Dropped">Dropped</option>
+                <option value="Reading">Reading</option>
+                <option value="Finished">Finished</option>
+            </select><br>
+            <button type="submit">Add Book</button>
+        </form>
+    </div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <!-- Form to delete a book by name -->
+    <div id="delete-form">
+        <h2>Delete a Book</h2>
+        <form id="delete-book-form">
+            <input type="text" id="delete-name" placeholder="Name" required><br>
+            <button type="submit">Delete Book</button>
+        </form>
+    </div>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <div id="book-list">
+        <h2>Books</h2>
+    </div>
+
+    <script>
+        // Fetch and display books
+        async function fetchBooks() {
+            const response = await fetch('http://localhost:3000/books');
+            const books = await response.json();
+            const bookList = document.getElementById('book-list');
+
+            bookList.innerHTML = '<h2>Books</h2>';
+            books.forEach(book => {
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'book';
+                bookDiv.innerHTML = `
+                    <h3>${book.name}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>State: ${book.state}</p>
+                    <select data-id="${book.id_book}" class="update-state">
+                        <option value="PtR" ${book.state === 'PtR' ? 'selected' : ''}>PtR</option>
+                        <option value="Dropped" ${book.state === 'Dropped' ? 'selected' : ''}>Dropped</option>
+                        <option value="Reading" ${book.state === 'Reading' ? 'selected' : ''}>Reading</option>
+                        <option value="Finished" ${book.state === 'Finished' ? 'selected' : ''}>Finished</option>
+                    </select>
+                `;
+                bookList.appendChild(bookDiv);
+            });
+        }
+
+        // Add a new book
+        document.getElementById('add-book-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const author = document.getElementById('author').value;
+            const state = document.getElementById('state').value;
+
+            const response = await fetch('http://localhost:3000/books/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, author, state })
+            });
+
+            if (response.ok) {
+                document.getElementById('add-book-form').reset();
+                fetchBooks();
+            } else {
+                console.error('Failed to add book', await response.text());
+            }
+        });
+
+        // Delete a book by name
+        document.getElementById('delete-book-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const name = document.getElementById('delete-name').value;
+
+            const response = await fetch('http://localhost:3000/books/name/deletion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name })
+            });
+
+            if (response.ok) {
+                document.getElementById('delete-book-form').reset();
+                fetchBooks();
+            } else {
+                console.error('Failed to delete book', await response.text());
+            }
+        });
+
+        // Update book state
+        document.getElementById('book-list').addEventListener('change', async function(event) {
+            if (event.target.className === 'update-state') {
+                const id_book = event.target.getAttribute('data-id');
+                const state = event.target.value;
+
+                if (!id_book) {
+                    console.error('Book ID is missing');
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:3000/books/${id_book}/state`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ state })
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to update book state', await response.text());
+                } else {
+                    fetchBooks(); // Refresh the book list
+                }
+            }
+        });
+
+        // Initial fetch of books
+        fetchBooks();
+    </script>
+</body>
 </html>
