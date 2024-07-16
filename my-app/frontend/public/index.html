@@ -22,6 +22,12 @@
         .book p {
             margin: 5px 0;
         }
+        body {
+            
+            background-size: 110%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+          }
     </style>
 </head>
 <body>
@@ -37,7 +43,7 @@
                 <option value="PtR">PtR</option>
                 <option value="Dropped">Dropped</option>
                 <option value="Reading">Reading</option>
-                <option value="Finished">Finished</option>
+                <option value="Read">Read</option>
             </select><br>
             <button type="submit">Add Book</button>
         </form>
@@ -75,7 +81,7 @@
                         <option value="PtR" ${book.state === 'PtR' ? 'selected' : ''}>PtR</option>
                         <option value="Dropped" ${book.state === 'Dropped' ? 'selected' : ''}>Dropped</option>
                         <option value="Reading" ${book.state === 'Reading' ? 'selected' : ''}>Reading</option>
-                        <option value="Finished" ${book.state === 'Finished' ? 'selected' : ''}>Finished</option>
+                        <option value="Read" ${book.state === 'Read' ? 'selected' : ''}>Read</option>
                     </select>
                 `;
                 bookList.appendChild(bookDiv);

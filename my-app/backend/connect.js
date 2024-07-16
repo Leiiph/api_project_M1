@@ -3,9 +3,9 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
+    host: 'api-m1.clewiamiykdf.us-east-2.rds.amazonaws.com',
+    user: 'admin',
+    password: 'adminadmin',
     database:'projet_api'
 });
 
