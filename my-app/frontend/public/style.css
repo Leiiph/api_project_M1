@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    background-size: 110%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url('images/background.jpeg');
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 80%;
+    margin: 0 auto; 
+}
+
+#book-form {
+    width: 100%;
+    margin-left:25%;
+    margin-right: 75%;
+    border: 1px solid white;
+    width: 30%;
+    padding:10px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#delete-form{
+    width: 100%;
+    margin-left:50%;
+    margin-right: 50%;
+    border: 1px solid white;
+    width: 30%;
+    padding:10px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.book {
+    border: 1px solid gray;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+}
+
+.book h3 {
+    margin: 0 0 10px;
+}
+
+.book p {
+    margin: 5px 0;
+}
+
+.center {
+    text-align: center;
+}
+
+#book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+
+.header{
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-top: 0px !important;
+}
+
+.footer{
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
