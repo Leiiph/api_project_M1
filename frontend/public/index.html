@@ -6,9 +6,6 @@
     <title>Book List</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
-
-
 <body>
     <h1 class="header">Book List</h1>
     <div class="container">
@@ -38,12 +35,14 @@
         <h2 style="margin:10px">Books</h2>
         <div id="book-list"></div>
     </div>
+    <button id="download-csv">Download Books CSV</button>
     <script>
         // Fetch and display books
         async function fetchBooks() {
             const response = await fetch('http://localhost:3000/books');
             const books = await response.json();
             const bookList = document.getElementById('book-list');
+            bookList.innerHTML = ''; // Clear existing books
 
             books.forEach(book => {
                 const bookDiv = document.createElement('div');
@@ -132,6 +131,11 @@
                     fetchBooks(); // Refresh the book list
                 }
             }
+        });
+
+        // Download books as CSV
+        document.getElementById('download-csv').addEventListener('click', function() {
+            window.location.href = 'http://localhost:4000/download';
         });
 
         // Initial fetch of books
