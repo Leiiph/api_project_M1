@@ -19,6 +19,7 @@ graphql/node_modules
 # misc
 .DS_Store
 backend/.env
+graphql/.env
 backend/.env.test
 backend/.env.local
 backend/.env.development.local
