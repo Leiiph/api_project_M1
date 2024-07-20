@@ -1,11 +1,10 @@
-const { db } = require('./db.js');
+import { db } from './db.js';
 
-const resolvers = {
+export const resolvers = {
   Query: {
-    books: () => {
-      return db.query('SELECT * FROM bookstate')
-        .then(([rows]) => rows);
-    }},
-  };
-
-module.exports = { resolvers };
+    books: async () => {
+        const [rows] = await db.query('SELECT * FROM bookstate');
+        return rows;
+    }
+  },
+};

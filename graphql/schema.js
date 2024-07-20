@@ -1,7 +1,6 @@
-const { gql } = require('apollo-server-express');
-const pool = require('./db');
+import gql from 'graphql-tag';
 
-const typeDefs = gql`
+export const typeDefs = gql`
   type Book {
     id_book: ID!
     name: String!
@@ -13,5 +12,3 @@ const typeDefs = gql`
     books: [Book]
   }
 `;
-
-module.exports = { typeDefs };

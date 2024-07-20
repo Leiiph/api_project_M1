@@ -1,7 +1,10 @@
-const mysql = require('mysql2');
+import mysql from 'mysql2';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const pool = mysql.createPool({
-  host: 'api-m1.clewiamiykdf.us-east-2.rds.amazonaws.com', 
+  host: 'api-m1.clewiamiykdf.us-east-2.rds.amazonaws.com',
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: 'projet_api',
@@ -10,4 +13,4 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-module.exports = pool.promise();
+export const db = pool.promise();

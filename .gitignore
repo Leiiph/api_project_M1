@@ -5,6 +5,8 @@ backend/credentials.json
 # dependencies
 backend/node_modules
 frontend/node_modules
+graphql/node_modules
+
 /.pnp
 .pnp.js
 
@@ -30,5 +32,3 @@ yarn-error.log*
 backend/.next
 frontend/.next
 frontend/out
-
-graphql/node_modules
