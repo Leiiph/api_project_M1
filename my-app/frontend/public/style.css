@@ -5,6 +5,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-image: url('images/background.jpeg');
+    margin: 0%;
 }
 
 .container {
@@ -24,6 +25,7 @@ body {
     padding:10px;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 5%;
 }
 
 #delete-form{
@@ -35,6 +37,7 @@ body {
     padding:10px;
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 5%;
 }
 
 .book {
@@ -61,6 +64,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+    margin: 10px
 }
 
 
@@ -68,14 +72,14 @@ body {
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
-    margin-top: 0px !important;
+    margin: 0px;
 }
 
 .footer{
     text-align: center;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 20px;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 5px;
     text-align: center;
 }
