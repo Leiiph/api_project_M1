@@ -13,3 +13,5 @@ const typeDefs = gql`
     books: [Book]
   }
 `;
+
+module.exports = { typeDefs };

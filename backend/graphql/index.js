@@ -1,15 +1,23 @@
-const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schema');
+import { startStandaloneServer } from "@apollo/server/standalone";
+import { ApolloServer } from "@apollo/server";
+import { typeDefs } from "./schema.js";
+import { resolvers } from "./resolvers.js";
+import { db } from "./db.js";
 
-const app = express();
-
-const server = new ApolloServer({ typeDefs, resolvers });
-await server.start();
-server.applyMiddleware({ app });
-
-const PORT = 4000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}${server.graphqlPath}`);
+// Create an instance of ApolloServer
+const server = new ApolloServer({
+	typeDefs,
+	resolvers,
+	context: () => ({ db }),
 });
+
+// Start the server
+// Passing an ApolloServer instance to the `startStandaloneServer` function:
+//  1. creates an Express app
+//  2. installs your ApolloServer instance as middleware
+//  3. prepares your app to handle incoming requests
+const { url } = await startStandaloneServer(server, {
+	listen: { port: 4000 },
+});
+
+console.log(`🚀 Server ready at ${url}`);
