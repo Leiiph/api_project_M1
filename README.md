@@ -5,6 +5,12 @@
 ## Introduction
 This document outlines all the requirements for our M1 final project in API class: a book list website, allowing the users to manage their book list. On it, the users are able to see the state of each book in the book list, add a new book to the list, remove one, and update the state of each book. They can also download the whole database in a .csv file.
 
+The website can be accessed here:
+-	http://3.128.61.45/
+-	https://github.com/Leiiph/api_project_M1
+
+But it requires to use the .env file in both /graphql and /backend
+
 ## Frontend
 **Page & Feature**
 1.	Home page
