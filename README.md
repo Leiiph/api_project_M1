@@ -81,3 +81,12 @@ The database is stored on AWS and can be CRUD through either the website itself 
 -	Use colors to visually differentiate book’s states,
 -	Graph on the webpage to see the proportion of each states (dynamically updated),
 -	Google oath.
+
+## How to set up and run the application
+If you do not use the direct link provided above, in each three app (backend, frontend & graphql), you must do npm install to get the required packages. Then, in this order:
+-	Backend : npm start
+-	graphQL : npm start
+-	frontend : npm start
+
+Then you should be able to see the website!
+
