@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  graphql:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile
+    container_name: apollo_server
+    ports:
+      - "4000:4000"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: express_backend
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    ports:
+      - "80:80"

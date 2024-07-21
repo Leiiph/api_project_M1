@@ -39,7 +39,7 @@
     <script>
         // Fetch and display books
         async function fetchBooks() {
-            const response = await fetch('http://localhost:3000/books');
+            const response = await fetch('http://3.128.61.45:3000/books');
             const books = await response.json();
             const bookList = document.getElementById('book-list');
             bookList.innerHTML = ''; // Clear existing books
@@ -69,7 +69,7 @@
             const author = document.getElementById('author').value;
             const state = document.getElementById('state').value;
 
-            const response = await fetch('http://localhost:3000/books/add', {
+            const response = await fetch('http://3.128.61.45:3000/books/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -90,7 +90,7 @@
             event.preventDefault();
             const name = document.getElementById('delete-name').value;
 
-            const response = await fetch('http://localhost:3000/books/name/deletion', {
+            const response = await fetch('http://3.128.61.45:3000/books/name/deletion', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -117,7 +117,7 @@
                     return;
                 }
 
-                const response = await fetch(`http://localhost:3000/books/${id_book}/state`, {
+                const response = await fetch(`http://3.128.61.45:3000/books/${id_book}/state`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -135,7 +135,7 @@
 
         // Download books as CSV
         document.getElementById('download-csv').addEventListener('click', function() {
-            window.location.href = 'http://localhost:4000/download';
+            window.location.href = 'http://3.128.61.45:4000/download';
         });
 
         // Initial fetch of books
