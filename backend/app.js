@@ -85,18 +85,3 @@ app.post('/books/name/deletion', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
-
-
-app.get('/download', async function(req, res) {
-    const books = await Book.findAll();
-    const jsonBooks = books.map(book => book.toJSON());
-  
-    const fields = ['title', 'author'];
-    const opts = { fields };
-    const parser = new Parser(opts);
-    const csv = parser.parse(jsonBooks);
-  
-    res.header('Content-Type', 'text/csv');
-    res.attachment('books.csv');
-    res.send(csv);
-  });

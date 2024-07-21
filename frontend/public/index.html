@@ -12,9 +12,9 @@
         <div id="book-form">
             <h2>Add a Book</h2><br>
             <form id="add-book-form">
-                <input type="text" id="name" placeholder="Name" required><br>
-                <input type="text" id="author" placeholder="Author" required><br>
-                <select id="state" required>
+                <input type="text" id="name" placeholder="Name" required style="width:90%"><br>
+                <input type="text" id="author" placeholder="Author" required style="width:90%"><br>
+                <select id="state" required required style="width:40%">
                     <option value="PtR">PtR</option>
                     <option value="Dropped">Dropped</option>
                     <option value="Reading">Reading</option>
@@ -26,7 +26,7 @@
         <div id="delete-form">
             <h2>Delete a Book</h2><br>
             <form id="delete-book-form">
-                <input type="text" id="delete-name" placeholder="Name" required><br>
+                <input type="text" id="delete-name" placeholder="Name" required style="width:90%"><br>
                 <button type="submit">Delete Book</button>
             </form>
         </div>
@@ -133,10 +133,60 @@
             }
         });
 
-        // Download books as CSV
         document.getElementById('download-csv').addEventListener('click', function() {
-            window.location.href = 'http://3.128.61.45:4000/download';
-        });
+            // Fine the graphQL query that should be entered on Apollo's website
+            const query = `
+                query {
+                    books {
+                        id_book
+                        name
+                        author
+                        state
+                    }
+                }
+            `;
+    
+            // Fetch data from the GraphQL API
+            fetch('http://67.202.13.62:4000/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Transform the JSON data into CSV
+                const csv = jsonToCSV(data.data.books);
+                downloadCSV(csv, 'books.csv');
+            })
+            .catch(error => console.error('Error fetching data:', error));
+            });
+    
+            // JSON to CSV
+            function jsonToCSV(json) {
+                const rows = json.map(book => [
+                    book.id_book,
+                    `"${book.name.replace(/"/g, '""')}"`,
+                    `"${book.author.replace(/"/g, '""')}"`,
+                    book.state
+                ]);
+                return [
+                    ['ID', 'Name', 'Author', 'State'].join(','),
+                    ...rows.map(row => row.join(','))
+                ].join('\n');
+            }
+    
+            // Download .csv
+            function downloadCSV(csvString, filename) {
+                const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
 
         // Initial fetch of books
         fetchBooks();
